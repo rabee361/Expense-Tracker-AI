@@ -1,1 +1,43 @@
 .env
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+
+# Environment files
+.env
+.venv/
+.envrc
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-workspace
+
+# Build and distribution files
+dist/
+build/
+*.egg-info/
+
+# Logs and temporary files
+*.log
+tmp/
+*.tmp
+
+# Database and cache files
+db.sqlite3
+*.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+*.memcached
+
+# Static and media files
+static/
+media/
+
+# Test files
+*.pytest_cache/
