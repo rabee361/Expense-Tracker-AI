@@ -3,7 +3,7 @@ from .models import *
 from rest_framework_simplejwt.tokens import TokenError, RefreshToken
 from django.contrib.auth import  authenticate
 from django.contrib.auth.password_validation import validate_password
-from accounts.methodes import *
+from utils.helper import *
 
 
 ##### sign up serializer #####
@@ -100,3 +100,19 @@ class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = '__all__'
+
+
+
+class SavingsGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavingsGoal
+        exclude = ['user']
+
+    def create(self, validated_data):
+        user_id = self.context['request'].user.id
+        validated_data['user'] = CustomUser.objects.get(id=user_id)
+        return SavingsGoal.objects.create(**validated_data)
+         
+        
+    
+

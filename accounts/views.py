@@ -5,15 +5,14 @@ from .serializers import *
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-from utils.email import Util
-from .methodes import *
-from .permissions import *
+from utils.email import *
+from utils.permissions import *
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import UpdateAPIView , RetrieveAPIView , ListCreateAPIView
+from rest_framework.generics import UpdateAPIView , RetrieveAPIView , ListCreateAPIView , ListAPIView
+from django.shortcuts import get_object_or_404
 
 
-
-##### sign-up users #####
+# sign-up users
 class SignUpView(APIView):
     def post(self, request):
         user_information = request.data
@@ -37,7 +36,7 @@ class SignUpView(APIView):
 
 
 
-##### log-in user #####
+# login 
 class UserLoginApiView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data = request.data)
@@ -51,7 +50,7 @@ class UserLoginApiView(APIView):
 
 
 
-#### log-out user #####
+# logout
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated, IsVerified]
     def post(self, request):
@@ -59,6 +58,9 @@ class LogoutAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 
 
 ##### verify account with generated code #####
@@ -80,6 +82,9 @@ class VerifyAccount(APIView):
             else:
                 return Response({'message':'الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح'})
 
+
+
+
 ##### Reset Password for user ######
 class GetCodeResetPassword(APIView):
     def post(self, request):
@@ -91,7 +96,7 @@ class GetCodeResetPassword(APIView):
                 existing_code.delete()
             code_verivecation = generate_code()
             data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verivecation)}
-            Util.send_email(data)
+            send_email(data)
             code = CodeVerification.objects.create(user=user, code=code_verivecation)
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
@@ -152,3 +157,27 @@ class ListInformationUserView(RetrieveAPIView):
 class UserAccount(ListCreateAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
+
+
+
+
+
+
+class CreateSavingGoal(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        serializer = SavingsGoalSerializer(data=request.data , context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data , status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+
+class ListSavingGoal(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+        

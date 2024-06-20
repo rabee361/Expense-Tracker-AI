@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from accounts.models import *
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from utils.forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 # Register your models here.
@@ -37,3 +37,4 @@ admin.site.register(CustomUser, AdminCustomUser)
 admin.site.register(CodeVerification)
 admin.site.register(Account)
 admin.site.register(AccountType)
+admin.site.register(SavingsGoal)

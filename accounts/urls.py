@@ -12,7 +12,10 @@ urlpatterns = [
     path('auth/verify-code-to-reset-password/<str:pk>/', VerifyCodeToChangePassword.as_view()),
     path('auth/reset-password/<str:pk>/', ResetPasswordView.as_view()),
     path('setting/list-info-user/<str:pk>/', ListInformationUserView.as_view()),
-    path('accounts/' , UserAccount.as_view())
+    path('accounts/' , UserAccount.as_view()),
+    path('create-goal/' , CreateSavingGoal.as_view()),
+    path('list-goals/' , ListSavingGoal.as_view()),
+
     # path('setting/update-image/<str:pk>/',UpdateImageUserView.as_view()),
 
 ]
