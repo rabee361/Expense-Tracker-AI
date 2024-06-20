@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username',)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.username
     
 
@@ -49,7 +49,7 @@ class CodeVerification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(default=get_expiration_time)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.user.username} code:{self.code}'
     
 

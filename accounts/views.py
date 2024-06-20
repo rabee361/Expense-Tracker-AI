@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from utils.email import *
 from utils.permissions import *
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import UpdateAPIView , RetrieveAPIView , ListCreateAPIView , ListAPIView
+from rest_framework.generics import UpdateAPIView , RetrieveAPIView , ListCreateAPIView , ListAPIView , RetrieveUpdateDestroyAPIView
 from django.shortcuts import get_object_or_404
 
 
@@ -162,7 +162,6 @@ class UserAccount(ListCreateAPIView):
 
 
 
-
 class CreateSavingGoal(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request):
@@ -176,7 +175,28 @@ class CreateSavingGoal(APIView):
 
 
 
+class RetUpdDesSavingsGoal(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+        
+
+
+
 class ListSavingGoal(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        goals = SavingsGoal.objects.filter(user__id=user.id)
+        return goals
+
+
+
+
+class AddGoalPayment(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = SavingsGoal.objects.all()
     serializer_class = SavingsGoalSerializer
