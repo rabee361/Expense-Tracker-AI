@@ -15,4 +15,4 @@ urlpatterns = [
     path('line-chart/<str:year>/' , LineChart.as_view()),
     path('create-item/', CreateItem.as_view()),
     path('items/' , Items.as_view())
-]
+]     
