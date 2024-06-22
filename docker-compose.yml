@@ -15,17 +15,12 @@ services:
       - db
     networks:
       - expense_network
-    environment:
-      - PASSWORD_DB=postgres
-      - NAME_DB=postgres
-      - USER_DB=postgres
+
  
   db:
-    image: postgres:latest
+    image: postgres
     environment:
-      - PASSWORD_DB=postgres
-      - NAME_DB=postgres
-      - USER_DB=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
     expose:
       - "5432"
     restart: always
