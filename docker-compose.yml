@@ -19,9 +19,21 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: rabee123
-      POSTGRES_DB: expense_tracker_db
-      POSTGRES_USER: postgres
+      - SECRET_KEY=django-insecure-us74j_lvt6^h)e5%^7y#$-sct)xp6j%pjeyvb($w6ko$$&u
+      - EMAIL_PORT=587
+      - EMAIL_USE_TLS=True
+      - EMAIL_HOST_USER=rha60540@gmail.com
+      - EMAIL_HOST_PASSWORD=ilqs zlbc uhit zprq
+      - HOST_DB=db
+      - PASSWORD_DB=rabee123
+      - PORT_DB=5432
+      - NAME_DB=expense_tracker_db
+      - USER_DB=postgres
+      - ENGINE_DB=django.db.backends.postgresql
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+    expose:
+      - "5432"
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
