@@ -16,15 +16,15 @@ services:
     networks:
       - expense_network
     environment:
-      - PASSWORD_DB=rabee123
-      - NAME_DB=expense_tracker_db
+      - PASSWORD_DB=postgres
+      - NAME_DB=postgres
       - USER_DB=postgres
  
   db:
     image: postgres:latest
     environment:
-      - PASSWORD_DB=rabee123
-      - NAME_DB=expense_tracker_db
+      - PASSWORD_DB=postgres
+      - NAME_DB=postgres
       - USER_DB=postgres
     expose:
       - "5432"
