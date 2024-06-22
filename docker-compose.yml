@@ -11,26 +11,33 @@ services:
     ports:
       - 8000:8000
     restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_NAME=postgres
+      - POSTGRES_DB=postgres
     depends_on:
       - db
-    networks:
-      - expense_network
+    # networks:
+    #   - expense_network
 
  
   db:
     image: postgres
-        
+
     environment:
-      - HOST_DB=db
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_NAME=postgres
+      - POSTGRES_DB=postgres
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    networks:
-        - expense_network
+    # networks:
+    #     - expense_network
 
-networks:
-  expense_network:
-    driver: bridge
+# networks:
+#   expense_network:
+#     driver: bridge
 
 volumes:
   postgres_data:
