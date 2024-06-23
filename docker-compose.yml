@@ -47,10 +47,10 @@ services:
 
   nginx:
     image: nginx
+    build: ./nginx
     ports:
       - "9000:80"
     volumes:
-      - ./nginx.conf:./nginx.conf:ro
       - static_volume:/home/static/
       - media_volume:/home/media/
     depends_on:
