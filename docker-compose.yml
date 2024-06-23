@@ -9,8 +9,8 @@ services:
     container_name: exense_web_1
     volumes:
       - .:/app
-      - expense_static:/var/www/project/static/
-      - expense_media:/var/www/project/media/
+      - static_volume:/var/www/project/static/
+      - media_volume:/var/www/project/media/
     ports:
       - 8000:8000
     restart: always
@@ -51,8 +51,8 @@ services:
       - "9000:80"
     volumes:
       - ./Al-Noor:/etc/nginx/sites-available/Al-Noor:ro
-      - expense_static:/var/www/project/static/
-      - expense_media:/var/www/project/media/
+      - static_volume:/var/www/project/static/
+      - media_volume:/var/www/project/media/
     depends_on:
       - web
     restart: always
