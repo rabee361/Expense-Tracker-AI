@@ -50,7 +50,7 @@ services:
     ports:
       - "9000:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/sites-available/nginx.conf:ro
+      - ./nginx.conf:./nginx.conf:ro
       - static_volume:/home/static/
       - media_volume:/home/media/
     depends_on:
