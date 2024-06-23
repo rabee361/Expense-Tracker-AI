@@ -9,7 +9,7 @@ services:
     container_name: expense_web_1
     volumes:
       - .:/app
-      - static_volume:/home/app/staticfiles/
+      - static_volume:/home/app/static/
       - media_volume:/home/app/media/
     ports:
       - 8000:8000
@@ -51,7 +51,7 @@ services:
     ports:
       - "9000:80"
     volumes:
-      - static_volume:/var/lib/docker/volumes/static_volume/_data
+      - static_volume:/home/app/static/
       - media_volume:/home/app/media/
     depends_on:
       - web
