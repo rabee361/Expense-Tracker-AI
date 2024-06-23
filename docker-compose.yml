@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: gunicorn project.wsgi:application --bind 0.0.0.0:8000
-    container_name: exense_web_1
+    container_name: expense_web_1
     volumes:
       - .:/app
       - static_volume:/home/app/staticfiles/
@@ -51,7 +51,7 @@ services:
     ports:
       - "9000:80"
     volumes:
-      - static_volume:/home/app/staticfiles/
+      - static_volume:/var/lib/docker/volumes/static_volume/_data
       - media_volume:/home/app/media/
     depends_on:
       - web
@@ -66,5 +66,5 @@ networks:
 
 volumes:
   postgres_data:
-  static_volume: /home/app/staticfiles/
-  media_volume: /home/app/media/
+  media_volume:
+  static_volume:
