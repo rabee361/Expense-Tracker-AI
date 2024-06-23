@@ -9,8 +9,8 @@ services:
     container_name: exense_web_1
     volumes:
       - .:/app
-      - static_volume:/home/static/
-      - media_volume:/home/media/
+      - static_volume:/home/app/staticfiles/
+      - media_volume:/home/app/media/
     ports:
       - 8000:8000
     restart: always
@@ -51,8 +51,8 @@ services:
     ports:
       - "9000:80"
     volumes:
-      - static_volume:/home/static/
-      - media_volume:/home/media/
+      - static_volume:/home/app/staticfiles/
+      - media_volume:/home/app/media/
     depends_on:
       - web
     restart: always
