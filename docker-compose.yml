@@ -46,7 +46,7 @@ services:
   nginx:
     image: nginx
     ports:
-      - "80:80"
+      - "9000:80"
     volumes:
       - ./Al-Noor:/etc/nginx/sites-available/Al-Noor:ro
       - ./static_volume:/static
