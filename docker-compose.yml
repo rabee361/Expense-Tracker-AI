@@ -49,8 +49,8 @@ services:
       - "9000:80"
     volumes:
       - ./Al-Noor:/etc/nginx/sites-available/Al-Noor:ro
-      - ./static_volume:/static
-      - ./media_volume:/media
+      - /var/www/project/static:/var/www/project/static
+      - /var/www/project/media:/var/www/project/media
     depends_on:
       - web
     restart: always
