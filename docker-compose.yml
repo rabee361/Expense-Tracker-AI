@@ -66,5 +66,5 @@ networks:
 
 volumes:
   postgres_data:
-  static_volume:
-  media_volume:
+  - static_volume:/home/app/staticfiles/
+  - media_volume:/home/app/media/
