@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts',
     'charts',
     #external models
+    'corsheaders',
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -69,10 +70,15 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'http://85.31.237.33:9000',
+)
 
 ROOT_URLCONF = 'project.urls'
 
