@@ -42,9 +42,27 @@ services:
     networks:
         - expense_network
 
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./Al-Noor:/etc/nginx/sites-available/Al-Noor:ro
+      - ./static_volume:/static
+      - ./media_volume:/media
+    depends_on:
+      - web
+    restart: always
+    networks:
+      expense_network:
+
+
 networks:
   expense_network:
     driver: bridge
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
