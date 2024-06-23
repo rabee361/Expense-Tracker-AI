@@ -23,8 +23,8 @@ class SignUpView(APIView):
         user = CustomUser.objects.get(email=user_data['email'])
         code = generate_code()
         # email_body = 'Hi '+user.username+' Use the code below to verify your email \n'+ str(code)
-        # data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code)}
-        # Util.send_email(data)
+        data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code)}
+        send_email(data)
         CodeVerification.objects.create(user=user, code=code) ## generate code for user
         token = RefreshToken.for_user(user)
         tokens = {
@@ -44,6 +44,7 @@ class UserLoginApiView(APIView):
         user = CustomUser.objects.get(email = request.data['username'])
         token = RefreshToken.for_user(user)
         data = serializer.data
+        data['user_id'] = user.id
         data['image'] = request.build_absolute_uri(user.image.url)
         data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
         return Response(data, status=status.HTTP_200_OK)
