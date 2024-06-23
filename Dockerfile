@@ -12,9 +12,10 @@ WORKDIR /home/app
 COPY requirements.txt /home/app/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r /home/app/requirements.txt
-RUN python manage.py collectstatic
+
 # Copy project
 COPY . /home/app
 
+RUN python manage.py collectstatic
 
 CMD ["python", "manage.py", "runserver" ,"0.0.0.0:8000"]
