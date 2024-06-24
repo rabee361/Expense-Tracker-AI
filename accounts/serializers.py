@@ -8,19 +8,19 @@ from utils.helper import *
 
 ##### sign up serializer #####
 class SignUpSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)
     class Meta:
         model = CustomUser
-        fields = ['id','email', 'username', 'password','password2']
+        fields = ['id','email', 'username', 'password','confirm_password']
         extra_kwargs = {
             'password':{'write_only':True,}
         }
     def validate(self, validated_data):
         password = validated_data['password']
-        password2 = validated_data.pop('password2')
+        confirm_password = validated_data.pop('confirm_password')
         validate_password(password)
-        validate_password(password2)
-        if password != password2:
+        validate_password(confirm_password)
+        if password != confirm_password:
             raise serializers.ValidationError("passwords don't match")
 
         return validated_data
@@ -96,9 +96,29 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 
+class UpdateUserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id','email', 'username', 'image']
+        exrtra_kwargs = {
+            'id':{'read_only':True},
+        }
+
+
+
+
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
+        fields = '__all__'
+
+
+
+
+
+class AccountTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountType
         fields = '__all__'
 
 

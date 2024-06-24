@@ -13,7 +13,7 @@ class IsVerified(BasePermission):
 class PermissionResetPassword(BasePermission):
     def has_permission(self, request, view):
         user_id = request.pk
-        code_verification = CodeVerification.objects.filter(user__id=user_id).first()
+        code_verification = OTPCode.objects.filter(user__id=user_id).first()
         if not code_verification.is_verified:
             raise PermissionDenied("ليس لديك الصلاحية بتغيير كلمة المرور")
         return True
@@ -21,7 +21,7 @@ class PermissionResetPassword(BasePermission):
 class HaveCodeVerifecation(BasePermission):
     def has_permission(self, request, view):
         user_id = request.pk
-        code_verification = CodeVerification.objects.filter(user__id=user_id).first()
+        code_verification = OTPCode.objects.filter(user__id=user_id).first()
         if not code_verification:
             raise PermissionDenied("الرجاء طلب رمز التحقق والمحاولة من جديد")
         return True

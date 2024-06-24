@@ -11,7 +11,7 @@ from utils.helper import *
 class AccountType(models.Model):
     name = models.CharField(max_length=50)
 
-    def __atr__(self) -> str:
+    def __str__(self) -> str:
         return self.name
 
 
@@ -35,8 +35,8 @@ class Account(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     currency = models.CharField(max_length=20)
     account_type = models.ForeignKey(AccountType,on_delete=models.CASCADE)
-    notes = models.TextField()
-    budget = models.FloatField()
+    notes = models.TextField(null=True , blank=True)
+    budget = models.FloatField(validators=[MinValueValidator(0.0)])
 
     def __str__(self) -> str:
         return f'{self.user.username}-{self.account_type}'

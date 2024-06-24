@@ -44,7 +44,7 @@ class UserLoginApiView(APIView):
         user = CustomUser.objects.get(email = request.data['username'])
         token = RefreshToken.for_user(user)
         data = serializer.data
-        data['user_id'] = user.id
+        data['id'] = user.id
         data['image'] = request.build_absolute_uri(user.image.url)
         data['tokens'] = {'refresh':str(token), 'access':str(token.access_token)}
         return Response(data, status=status.HTTP_200_OK)
@@ -147,17 +147,32 @@ class ResetPasswordView(UpdateAPIView):
 
 
 ##### get user profile information #####
-class ListInformationUserView(RetrieveAPIView):
+class ListUserInformationView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class= CustomUserSerializer
 
 
 
+class UpdateImageUserView(UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateUserInfoSerializer
+    permission_classes = [IsAuthenticated]
+
+
+
 
 class UserAccount(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
 
+
+class ListAccounyTypes(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = AccountType.objects.all()
+    serializer_class = AccountTypeSerializer
