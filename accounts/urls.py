@@ -15,13 +15,6 @@ urlpatterns = [
 
     path('accounts/' , UserAccount.as_view()),
 
-    path('create-goal/' , CreateSavingGoal.as_view()),
-    path('delete-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
-    path('update-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
-    path('get-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
-    path('list-goals/' , ListSavingGoal.as_view()),
-    path('add-goal-payment/' , AddGoalPayment.as_view()),
-
     # path('setting/update-image/<str:pk>/',UpdateImageUserView.as_view()),
 
 ]

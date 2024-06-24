@@ -56,3 +56,15 @@ class UpcomingPaymentSerializer(serializers.ModelSerializer):
 
 
 
+class SavingsGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavingsGoal
+        exclude = ['user']
+
+    def create(self, validated_data):
+        user_id = self.context['request'].user.id
+        validated_data['user'] = CustomUser.objects.get(id=user_id)
+        return SavingsGoal.objects.create(**validated_data)
+         
+        
+    

@@ -34,7 +34,6 @@ class AdminCustomUser(UserAdmin):
             ),
     )
 admin.site.register(CustomUser, AdminCustomUser)
-admin.site.register(CodeVerification)
 admin.site.register(Account)
 admin.site.register(AccountType)
-admin.site.register(SavingsGoal)
+admin.site.register(OTPCode)

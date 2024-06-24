@@ -5,6 +5,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from utils.helper import *
 
 
+
+
+
+class AccountType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __atr__(self) -> str:
+        return self.name
+
+
+
 class CustomUser(AbstractUser):
     email = models.EmailField(max_length=50, unique=True,null=True,blank=True)
     username = models.CharField(max_length=200)
@@ -17,14 +28,6 @@ class CustomUser(AbstractUser):
     def __str__(self) -> str:
         return self.username
     
-
-
-class AccountType(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __atr__(self) -> str:
-        return self.name
-
 
 
 
@@ -42,7 +45,7 @@ class Account(models.Model):
 
 
 
-class CodeVerification(models.Model):
+class OTPCode(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     is_verified = models.BooleanField(default=False)
     code = models.IntegerField(validators=[MinValueValidator(1000), MaxValueValidator(9999)])
@@ -56,12 +59,3 @@ class CodeVerification(models.Model):
 
 
 
-class SavingsGoal(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100 , unique=True)
-    budget = models.IntegerField(validators=[MinValueValidator(1000)])
-    date = models.DateField()
-    notes = models.CharField(max_length=200 , null=True, blank=True)
-
-    def __str__(self) -> str:
-        return self.name

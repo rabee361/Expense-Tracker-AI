@@ -82,12 +82,12 @@ class ResetPasswordSerializer(serializers.Serializer):
         instance = CustomUser.objects.get(pk=pk)
         instance.set_password(validated_data['newpassword'])
         instance.save()
-        code = CodeVerification.objects.filter(user=instance).first()
+        code = OTPCode.objects.filter(user=instance).first()
         code.delete()
         return instance
 
 
-# Handel Seriailzer For List Information User
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -103,16 +103,5 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 
-class SavingsGoalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SavingsGoal
-        exclude = ['user']
 
-    def create(self, validated_data):
-        user_id = self.context['request'].user.id
-        validated_data['user'] = CustomUser.objects.get(id=user_id)
-        return SavingsGoal.objects.create(**validated_data)
-         
-        
-    
 

@@ -25,7 +25,7 @@ class SignUpView(APIView):
         # email_body = 'Hi '+user.username+' Use the code below to verify your email \n'+ str(code)
         data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code)}
         send_email(data)
-        CodeVerification.objects.create(user=user, code=code) ## generate code for user
+        OTPCode.objects.create(user=user, code=code) ## generate code for user
         token = RefreshToken.for_user(user)
         tokens = {
             'refresh':str(token),
@@ -71,7 +71,7 @@ class VerifyAccount(APIView):
     def put(self, request, pk):
         code = request.data['code']
         user = CustomUser.objects.get(id=pk)
-        code_ver = CodeVerification.objects.filter(user=user.id).first()
+        code_ver = OTPCode.objects.filter(user=user.id).first()
         if code_ver:
             if str(code) == str(code_ver.code):
                 if timezone.now() > code_ver.expires_at:
@@ -92,13 +92,13 @@ class GetCodeResetPassword(APIView):
         email = request.data['email']
         try: 
             user = get_object_or_404(CustomUser, email=email)
-            existing_code = CodeVerification.objects.filter(user=user).first()
+            existing_code = OTPCode.objects.filter(user=user).first()
             if existing_code:
                 existing_code.delete()
             code_verivecation = generate_code()
             data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verivecation)}
             send_email(data)
-            code = CodeVerification.objects.create(user=user, code=code_verivecation)
+            code = OTPCode.objects.create(user=user, code=code_verivecation)
             return Response({'message':'تم ارسال رمز التحقق',
                              'user_id' : user.id})
         except:
@@ -117,7 +117,7 @@ class VerifyCodeToChangePassword(APIView):
     def post(self, request, pk):
         code = request.data['code']
         user = CustomUser.objects.get(id=pk)
-        code_ver = CodeVerification.objects.filter(user=user.id).first()
+        code_ver = OTPCode.objects.filter(user=user.id).first()
         if code_ver:
             if str(code) == str(code_ver.code):
                 if timezone.now() > code_ver.expires_at:
@@ -161,44 +161,3 @@ class UserAccount(ListCreateAPIView):
 
 
 
-
-
-class CreateSavingGoal(APIView):
-    permission_classes = [IsAuthenticated]
-    def post(self,request):
-        serializer = SavingsGoalSerializer(data=request.data , context={'request':request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-
-
-
-
-class RetUpdDesSavingsGoal(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = SavingsGoal.objects.all()
-    serializer_class = SavingsGoalSerializer
-        
-
-
-
-class ListSavingGoal(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = SavingsGoal.objects.all()
-    serializer_class = SavingsGoalSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        goals = SavingsGoal.objects.filter(user__id=user.id)
-        return goals
-
-
-
-
-class AddGoalPayment(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = SavingsGoal.objects.all()
-    serializer_class = SavingsGoalSerializer
-        

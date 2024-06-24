@@ -33,7 +33,11 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['web:8000','85.31.237.33']
+ALLOWED_HOSTS = [
+    'web:8000',
+    '85.31.237.33',
+    '127.0.0.1'         
+]
 
 
 # Application definition
@@ -86,8 +90,8 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    '85.31.237.33',
-    'localhost'
+    'http://85.31.237.33',
+    'http://localhost'
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -160,9 +164,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
-STATIC_URL = '/project/static/'
+STATIC_URL = '/static/'
 
-MEDIA_URL = '/project/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 
 # Default primary key field type

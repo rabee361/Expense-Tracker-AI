@@ -6,13 +6,13 @@ from utils.helper import *
 from django.db.models import Sum , F , Q
 from django.db.models.functions import ExtractMonth
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView , RetrieveAPIView , UpdateAPIView , DestroyAPIView , ListAPIView
 from project.filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 
 
-class Items(ListCreateAPIView):
+class ListItemsView(ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = [DjangoFilterBackend]
@@ -24,6 +24,50 @@ class Items(ListCreateAPIView):
         category = ExpenseCategory.objects.get(name=self.request.data['name'])
         serializer.save(client=user, category=category)
 
+
+
+
+
+
+
+class CreateItemView(ListCreateAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        user = CustomUser.objects.get(id=self.request.user.id)
+        category = ExpenseCategory.objects.get(name=self.request.data['name'])
+        serializer.save(client=user, category=category)
+
+    def get_queryset(self):
+        date = timezone.now().today()
+        return Item.objects.filter(created__date=date)
+    
+
+
+
+
+class GetItemView(RetrieveAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+
+    
+
+class DeleteItemView(DestroyAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+
+class UpdateItemView(UpdateAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = (IsAuthenticated,)
+
+    
 
 
 class ListCreateCategory(ListCreateAPIView):
@@ -64,6 +108,55 @@ class ListCreateUpcomingPayment(ListCreateAPIView):
 class RetUpdDesUpcomingPayment(RetrieveUpdateDestroyAPIView):
     queryset = UpcomingPayment.objects.all()
     serializer_class = UpcomingPaymentSerializer
+
+
+
+
+
+
+
+class CreateSavingGoal(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        serializer = SavingsGoalSerializer(data=request.data , context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data , status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+
+
+class RetUpdDesSavingsGoal(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+        
+
+
+
+class ListSavingGoal(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        goals = SavingsGoal.objects.filter(user__id=user.id)
+        return goals
+
+
+
+
+class AddGoalPayment(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = SavingsGoal.objects.all()
+    serializer_class = SavingsGoalSerializer
+        
+
+
+
 
 
 
@@ -117,19 +210,3 @@ class LineChart(APIView):
         serializer = ItemsPerMonthSerializer(grouped_expenses, many=True)
         return Response(serializer.data)
 
-
-
-
-class CreateItem(ListCreateAPIView):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def perform_create(self, serializer):
-        user = CustomUser.objects.get(id=self.request.user.id)
-        category = ExpenseCategory.objects.get(name=self.request.data['name'])
-        serializer.save(client=user, category=category)
-
-    def get_queryset(self):
-        date = timezone.now().today()
-        return Item.objects.filter(created__date=date)
