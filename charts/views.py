@@ -149,12 +149,22 @@ class ListSavingGoal(ListAPIView):
 
 
 
-class AddGoalPayment(ListAPIView):
+class AddGoalPayment(APIView):
     permission_classes = [IsAuthenticated]
-    queryset = SavingsGoal.objects.all()
-    serializer_class = SavingsGoalSerializer
         
-
+    def post(self,request):
+        payment = request.data.get('payment',None)
+        id = request.data.get('goal_id',None)
+        if isinstance(payment, int) and isinstance(id, int):
+            try:
+                saving_goal = SavingsGoal.objects.get(user=request.user,id=id)
+                saving_goal.add_payment(payment)
+                serializer = SavingsGoalSerializer(saving_goal)
+                return Response(serializer.data , status=status.HTTP_200_OK)
+            except SavingsGoal.DoesNotExist:
+                return Response({"error":"لا يوجد هدف بهذه المعلومات"} , status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error":"أدخل قيمة رقمية صحيحة"} , status=status.HTTP_400_BAD_REQUEST)
 
 
 

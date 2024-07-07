@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import Account
 from django.core.validators import MinValueValidator
 from accounts.models import CustomUser
+from django.core.exceptions import ValidationError
 
 
 class ExpenseCategory(models.Model):
@@ -57,5 +58,10 @@ class SavingsGoal(models.Model):
     date = models.DateField()
     notes = models.CharField(max_length=200 , null=True, blank=True)
 
+    def add_payment(self,payment):
+        if (self.current + payment) < self.budget:
+            self.current += payment
+            self.save()
+        
     def __str__(self) -> str:
         return self.name
