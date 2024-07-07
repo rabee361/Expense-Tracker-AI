@@ -53,6 +53,7 @@ class SavingsGoal(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=100 , unique=True)
     budget = models.IntegerField(validators=[MinValueValidator(1000)])
+    current = models.IntegerField(validators=[MinValueValidator(1000)],default=0)
     date = models.DateField()
     notes = models.CharField(max_length=200 , null=True, blank=True)
 
