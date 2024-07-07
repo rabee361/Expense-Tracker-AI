@@ -91,10 +91,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     'http://localhost:9000'
 # ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://85.31.237.33',
-    'http://localhost'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://85.31.237.33',
+#     'http://localhost'
+# ]
 
 ROOT_URLCONF = 'project.urls'
 
