@@ -177,12 +177,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
+#for docker depolyment
+# STATIC_ROOT = '/home/app/static'
+# STATIC_URL = '/project/static/'
 
-STATIC_ROOT = '/home/app/static'
-STATIC_URL = '/project/static/'
+# MEDIA_URL = '/project/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 
-MEDIA_URL = '/project/media/'
+
+
+STATIC_ROOT = os.path.join(BASE_DIR , 'staticfiles')
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
