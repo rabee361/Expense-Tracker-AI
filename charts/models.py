@@ -65,3 +65,17 @@ class SavingsGoal(models.Model):
         
     def __str__(self) -> str:
         return self.name
+    
+
+
+
+
+class SpendingLimit(models.Model):
+    user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
+    limit = models.IntegerField(validators=[MinValueValidator(1000)])
+    subcategory = models.ForeignKey(ExpenseSubCategory , on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self) -> str:
+        return self.uesr

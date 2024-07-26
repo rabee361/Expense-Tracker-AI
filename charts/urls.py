@@ -31,4 +31,8 @@ urlpatterns = [
     path('list-goals/' , ListSavingGoal.as_view()),
     path('add-goal-payment/' , AddGoalPayment.as_view()),
 
+
+    # path('list-limits/' , ListLimits.as_view())
+    # path('get-limit/' , GetLimit.as_view())
+
 ]     
