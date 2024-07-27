@@ -68,3 +68,9 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
          
         
     
+
+class SpendingLimitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpendingLimit
+        fields = '__all__'
+        # exclude = ['user']

@@ -57,6 +57,7 @@ class SavingsGoal(models.Model):
     current = models.IntegerField(validators=[MinValueValidator(1000)],default=0)
     date = models.DateField()
     notes = models.CharField(max_length=200 , null=True, blank=True)
+    currency = models.CharField(max_length=100,default='ل.س')
 
     def add_payment(self,payment):
         if (self.current + payment) < self.budget:
@@ -69,13 +70,15 @@ class SavingsGoal(models.Model):
 
 
 
+# check the limit by checking the sum of all the spendings in that category
 
 class SpendingLimit(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     limit = models.IntegerField(validators=[MinValueValidator(1000)])
-    subcategory = models.ForeignKey(ExpenseSubCategory , on_delete=models.CASCADE)
+    category = models.ForeignKey(ExpenseCategory , on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
+    currency = models.CharField(max_length=100,default='ل.س')
 
     def __str__(self) -> str:
-        return self.uesr
+        return f'{self.user} - {self.category} - {self.limit}'

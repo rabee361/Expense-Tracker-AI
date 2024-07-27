@@ -23,16 +23,17 @@ urlpatterns = [
     path('upcoming-payments/' , ListCreateUpcomingPayment.as_view()),
     path('get-upcoming-payment/<str:pk>/' ,RetUpdDesUpcomingPayment.as_view()),
 
-
-    path('create-goal/' , CreateSavingGoal.as_view()),
-    path('delete-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
-    path('update-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
-    path('get-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
     path('list-goals/' , ListSavingGoal.as_view()),
+    path('create-goal/' , CreateSavingGoal.as_view()),
+    path('get-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
+    path('update-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
+    path('delete-goal/<str:pk>/' , RetUpdDesSavingsGoal.as_view()),
     path('add-goal-payment/' , AddGoalPayment.as_view()),
 
-
-    # path('list-limits/' , ListLimits.as_view())
-    # path('get-limit/' , GetLimit.as_view())
+    path('list-limits/' , ListCreateLimits.as_view()),
+    path('create-limit/' , ListCreateLimits.as_view()),
+    path('get-limit/<str:pk>' , RetUpdDesLimit.as_view()),
+    path('update-limit/<str:pk>' , RetUpdDesLimit.as_view()),
+    path('delete-limit/<str:pk>' , RetUpdDesLimit.as_view()),
 
 ]     

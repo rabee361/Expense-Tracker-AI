@@ -220,3 +220,21 @@ class LineChart(APIView):
         serializer = ItemsPerMonthSerializer(grouped_expenses, many=True)
         return Response(serializer.data)
 
+
+
+
+
+
+class ListCreateLimits(ListCreateAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = SpendingLimit.objects.all()
+    serializer_class = SpendingLimitSerializer
+        
+
+
+
+class RetUpdDesLimit(RetrieveUpdateDestroyAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = SpendingLimit.objects.all()
+    serializer_class = SpendingLimitSerializer
+        
