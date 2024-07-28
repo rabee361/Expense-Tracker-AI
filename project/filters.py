@@ -14,7 +14,7 @@ class ItemFilter(django_filters.FilterSet):
 
 
 class CategoryFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(field_name='name', lookup_expr='starts_with')
+    name = django_filters.CharFilter(field_name='name', lookup_expr='startswith')
     
     class Meta:
         model = ExpenseCategory
@@ -23,8 +23,8 @@ class CategoryFilter(django_filters.FilterSet):
 
 
 class SubCategoryFilter(django_filters.FilterSet):
-    category_name = django_filters.CharFilter(field_name='category__name', lookup_expr='starts_with')
-    name = django_filters.CharFilter(field_name='name', lookup_expr='starts_with')
+    category_name = django_filters.CharFilter(field_name='category__name', lookup_expr='startswith')
+    name = django_filters.CharFilter(field_name='name', lookup_expr='startswith')
     
     class Meta:
         model = ExpenseSubCategory
