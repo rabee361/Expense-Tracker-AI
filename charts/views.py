@@ -35,11 +35,6 @@ class CreateItemView(ListCreateAPIView):
     serializer_class = ItemSerializer
     permission_classes = (IsAuthenticated,)
 
-    # def perform_create(self, serializer):
-    #     user = CustomUser.objects.get(id=self.request.user.id)
-    #     # subcategory = ExpenseSubCategory.objects.get(name=self.request.data['expense_type'])
-    #     serializer.save(client=user)
-
     def get_queryset(self):
         date = timezone.now().today()
         return Item.objects.filter(created__date=date)
@@ -74,6 +69,7 @@ class ListCreateCategory(ListCreateAPIView):
     queryset = ExpenseCategory.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
+    filterset_class = CategoryFilter
 
 
 
@@ -88,6 +84,7 @@ class ListCreateSubCategory(ListCreateAPIView):
     queryset = ExpenseSubCategory.objects.all()
     serializer_class = SubCategorySerializer
     filter_backends = [DjangoFilterBackend]
+    filterset_class = SubCategoryFilter
 
 
 
