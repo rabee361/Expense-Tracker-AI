@@ -35,10 +35,10 @@ class CreateItemView(ListCreateAPIView):
     serializer_class = ItemSerializer
     permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        user = CustomUser.objects.get(id=self.request.user.id)
-        # subcategory = ExpenseSubCategory.objects.get(name=self.request.data['expense_type'])
-        serializer.save(client=user)
+    # def perform_create(self, serializer):
+    #     user = CustomUser.objects.get(id=self.request.user.id)
+    #     # subcategory = ExpenseSubCategory.objects.get(name=self.request.data['expense_type'])
+    #     serializer.save(client=user)
 
     def get_queryset(self):
         date = timezone.now().today()
