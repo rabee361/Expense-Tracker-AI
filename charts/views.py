@@ -37,8 +37,8 @@ class CreateItemView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = CustomUser.objects.get(id=self.request.user.id)
-        subcategory = ExpenseSubCategory.objects.get(name=self.request.data['expense_type'])
-        serializer.save(client=user, subcategory=subcategory)
+        # subcategory = ExpenseSubCategory.objects.get(name=self.request.data['expense_type'])
+        serializer.save(client=user,data=self.request.data)
 
     def get_queryset(self):
         date = timezone.now().today()
