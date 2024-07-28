@@ -81,4 +81,4 @@ class SpendingLimit(models.Model):
     currency = models.CharField(max_length=100,default='ل.س')
 
     def __str__(self) -> str:
-        return f'{self.user} - {self.category} - {self.limit}'
+        return f'{self.user} - {self.category} - {self.limit} {self.currency}'
