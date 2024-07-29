@@ -10,6 +10,7 @@ from rest_framework.generics import ListCreateAPIView , GenericAPIView , Retriev
 from project.filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
+from django.db import IntegrityError
 
 
 class ListItemsView(ListCreateAPIView):
@@ -227,9 +228,6 @@ class ListCreateLimits(ListCreateAPIView):
     queryset = SpendingLimit.objects.all()
     serializer_class = SpendingLimitSerializer
 
-
-    
-        
 
 
 

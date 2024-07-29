@@ -81,7 +81,7 @@ class SpendingLimit(models.Model):
     currency = models.CharField(max_length=100,default='ل.س')
 
     class Meta:
-        unique_together = ['user', 'category']
+        unique_together = ['user', 'category','start_date','end_date']
 
     def __str__(self) -> str:
         return f'{self.user} - {self.category} - {self.limit} {self.currency}'
