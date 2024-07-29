@@ -75,10 +75,13 @@ class SavingsGoal(models.Model):
 class SpendingLimit(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     limit = models.IntegerField(validators=[MinValueValidator(1000)])
-    category = models.ForeignKey(ExpenseCategory , on_delete=models.CASCADE,unique=True)
+    category = models.ForeignKey(ExpenseCategory , on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     currency = models.CharField(max_length=100,default='ل.س')
+
+    class Meta:
+        unique_together = ['user', 'category']
 
     def __str__(self) -> str:
         return f'{self.user} - {self.category} - {self.limit} {self.currency}'
