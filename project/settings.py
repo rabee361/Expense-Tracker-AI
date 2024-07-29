@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 import environ
 from firebase_admin import initialize_app, credentials
 from google.auth import load_credentials_from_file
+# initialize_app()
 
 load_dotenv()
 env = environ.Env()
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'charts',
     #external models
     'corsheaders',
+    'fcm_django',
     'django_filters',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -264,7 +266,7 @@ class CustomFirebaseCredentials(credentials.ApplicationDefault):
                                                                               scopes=credentials._scopes)
 
 
-custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/systempro/storeapp-8cc25-firebase-adminsdk-63jeh-3a5b5e4884.json')
+custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/Django Projects/project/notifiction-3762c-firebase-adminsdk-cj6li-ee4022b759.json')
 FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'notifiction-3762c'}, name='messaging')
 
 
