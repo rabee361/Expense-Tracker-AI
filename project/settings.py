@@ -15,10 +15,11 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 import environ
+from firebase_admin import initialize_app, credentials
+from google.auth import load_credentials_from_file
 
 load_dotenv()
 env = environ.Env()
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -244,3 +245,41 @@ EMAIL_PORT = env('EMAIL_PORT')
 EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
+
+
+
+
+
+
+
+class CustomFirebaseCredentials(credentials.ApplicationDefault):
+    def __init__(self, account_file_path: str):
+        super().__init__()
+        self._account_file_path = account_file_path
+
+    def _load_credential(self):
+        if not self._g_credential:
+            self._g_credential, self._project_id = load_credentials_from_file(self._account_file_path,
+                                                                              scopes=credentials._scopes)
+
+
+custom_credentials = CustomFirebaseCredentials('C:/Users/eng.Rabee/systempro/storeapp-8cc25-firebase-adminsdk-63jeh-3a5b5e4884.json')
+FIREBASE_MESSAGING_APP = initialize_app(custom_credentials, options={'projectId': 'notifiction-3762c'}, name='messaging')
+
+
+
+FCM_DJANGO_SETTINGS = {
+     # an instance of firebase_admin.App to be used as default for all fcm-django requests
+     # default: None (the default Firebase app)
+    "DEFAULT_FIREBASE_APP": FIREBASE_MESSAGING_APP,
+     # default: _('FCM Django')
+    "APP_VERBOSE_NAME": "Notification Devices",
+     # true if you want to have only one active device per registered user at a time
+     # default: False
+    "ONE_DEVICE_PER_USER": False,
+     # devices to which notifications cannot be sent,
+     # are deleted upon receiving error response from FCM
+     # default: False
+    "DELETE_INACTIVE_DEVICES": False,
+}
