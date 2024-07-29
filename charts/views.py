@@ -20,10 +20,10 @@ class CreateItemView(ListCreateAPIView):
     filterset_class = ItemFilter
     # permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        user = CustomUser.objects.get(id=self.request.user.id)
-        category = ExpenseCategory.objects.get(name=self.request.data['name'])
-        serializer.save(client=user, category=category)
+    # def perform_create(self, serializer):
+    #     user = CustomUser.objects.get(id=self.request.user.id)
+    #     category = ExpenseCategory.objects.get(name=self.request.data['name'])
+    #     serializer.save(client=user, category=category)
 
 
 
