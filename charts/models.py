@@ -75,7 +75,7 @@ class SavingsGoal(models.Model):
 class SpendingLimit(models.Model):
     user = models.ForeignKey(CustomUser , on_delete=models.CASCADE)
     limit = models.IntegerField(validators=[MinValueValidator(1000)])
-    category = models.ForeignKey(ExpenseCategory , on_delete=models.CASCADE)
+    category = models.ForeignKey(ExpenseCategory , on_delete=models.CASCADE,unique=True)
     start_date = models.DateField()
     end_date = models.DateField()
     currency = models.CharField(max_length=100,default='ل.س')

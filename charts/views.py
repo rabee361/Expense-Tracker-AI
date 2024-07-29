@@ -226,6 +226,9 @@ class ListCreateLimits(ListCreateAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = SpendingLimit.objects.all()
     serializer_class = SpendingLimitSerializer
+
+
+    
         
 
 

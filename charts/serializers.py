@@ -70,7 +70,16 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
     
 
 class SpendingLimitSerializer(serializers.ModelSerializer):
+    # category_name = serializers.CharField(write_only=True)
+
     class Meta:
         model = SpendingLimit
         fields = '__all__'
-        # exclude = ['user']
+        # exclude = ['category']
+        
+
+    # def create(self, validated_data):
+    #     category_name = validated_data.pop('category_name')
+    #     category = ExpenseCategory.objects.get(name=category_name)
+    #     validated_data['category'] = category
+    #     return super().create(validated_data)
