@@ -41,6 +41,9 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='subcategory.name',read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.category.name',read_only=True)
+
     class Meta:
         model = Item
         fields = '__all__'

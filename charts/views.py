@@ -13,12 +13,12 @@ from rest_framework import status
 from django.db import IntegrityError
 
 
-class ListItemsView(ListCreateAPIView):
+class CreateItemView(ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = ItemFilter
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         user = CustomUser.objects.get(id=self.request.user.id)
@@ -31,14 +31,14 @@ class ListItemsView(ListCreateAPIView):
 
 
 
-class CreateItemView(ListCreateAPIView):
+class ListItemView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
-    def get_queryset(self):
-        date = timezone.now().today()
-        return Item.objects.filter(created__date=date)
+    # def get_queryset(self):
+    #     date = timezone.now().today()
+    #     return Item.objects.filter(created__date=date)
     
 
 
