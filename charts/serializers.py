@@ -82,7 +82,7 @@ class SpendingLimitSerializer(serializers.ModelSerializer):
         model = SpendingLimit
         fields = '__all__'
     
-    def get_current_spending(obj):
+    def get_current_spending(self,obj):
         return obj.current_spending
 
     # def create(self, validated_data):
