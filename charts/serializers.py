@@ -41,8 +41,10 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    category_name = serializers.CharField(source='subcategory.name',read_only=True)
-    subcategory_name = serializers.CharField(source='subcategory.category.name',read_only=True)
+    category_name = serializers.CharField(source='subcategory.category.name',read_only=True)
+    category_icon = serializers.ImageField(source='subcategory.category.icon',read_only=True)
+    subcategory_name = serializers.CharField(source='subcategory.name',read_only=True)
+    subcategory_icon = serializers.ImageField(source='subcategory.icon',read_only=True)
 
     class Meta:
         model = Item
@@ -74,11 +76,14 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
 
 class SpendingLimitSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name',read_only=True)
+    current_spending = serializers.SerializerMethodField()
 
     class Meta:
         model = SpendingLimit
         fields = '__all__'
-        
+    
+    def get_current_spending(obj):
+        return obj.current_spending
 
     # def create(self, validated_data):
     #     category_name = validated_data.pop('category_name')

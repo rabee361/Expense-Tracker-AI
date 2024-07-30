@@ -3,6 +3,7 @@ from accounts.models import Account
 from django.core.validators import MinValueValidator
 from accounts.models import CustomUser
 from django.core.exceptions import ValidationError
+from django.db.models import Q  ,Sum
 
 
 class ExpenseCategory(models.Model):
@@ -81,6 +82,12 @@ class SpendingLimit(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     currency = models.CharField(max_length=100,default='ل.س')
+
+    @property
+    def current_spending(self):
+        accounts = Account.objects.filter(user=self.user).values_list('id')
+        items = Item.objects.filter(Q(account__in=accounts) & Q(created__lte=self.end_date) & Q(created__gte=self.start_date) & Q(subcategory__category__name=self.category.name)).aggregate(total=Sum('price'))['total']
+        return items
 
     # class Meta:
     #     unique_together = ['user', 'category','start_date','end_date']
