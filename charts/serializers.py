@@ -84,7 +84,10 @@ class SpendingLimitSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_current_spending(self,obj):
-        return obj.current_spending
+        if obj.current_spending > 0:
+            return obj.current_spending
+        else:
+            return 0
 
     def get_remaining_amount(self,obj):
         return obj.limit - obj.current_spending

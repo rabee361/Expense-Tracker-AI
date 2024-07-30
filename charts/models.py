@@ -87,7 +87,10 @@ class SpendingLimit(models.Model):
     def current_spending(self):
         accounts = Account.objects.filter(user=self.user).values_list('id')
         items = Item.objects.filter(Q(account__in=accounts) & Q(created__lte=self.end_date) & Q(created__gte=self.start_date) & Q(subcategory__category__name=self.category.name)).aggregate(total=Sum('price'))['total']
-        return items
+        if items :
+            return items
+        else:
+            return 0
 
     # class Meta:
     #     unique_together = ['user', 'category','start_date','end_date']
