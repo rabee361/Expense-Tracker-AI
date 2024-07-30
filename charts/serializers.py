@@ -77,6 +77,7 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
 class SpendingLimitSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name',read_only=True)
     current_spending = serializers.SerializerMethodField()
+    remaining_amount = serializers.SerializerMethodField()
 
     class Meta:
         model = SpendingLimit
@@ -84,6 +85,9 @@ class SpendingLimitSerializer(serializers.ModelSerializer):
     
     def get_current_spending(self,obj):
         return obj.current_spending
+
+    def get_remaining_amount(self,obj):
+        return obj.limit - obj.current_spending
 
     # def create(self, validated_data):
     #     category_name = validated_data.pop('category_name')
