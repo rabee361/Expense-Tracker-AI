@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from utils.helper import *
 import calendar
+from django.utils.timezone import localtime
 
 
 
@@ -31,12 +32,22 @@ class CategorySerializer(serializers.ModelSerializer):
         model = ExpenseCategory
         fields = '__all__'
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['created'] = localtime(instance.created).strftime("%Y-%m-%d %H:%M")
+        return rep
+
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpenseSubCategory
         fields = '__all__'
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['created'] = localtime(instance.created).strftime("%Y-%m-%d %H:%M")
+        return rep
 
 
 
@@ -50,6 +61,11 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = '__all__'
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['created'] = localtime(instance.created).strftime("%Y-%m-%d %H:%M")
+        return rep
+
 
 
 
@@ -58,7 +74,11 @@ class UpcomingPaymentSerializer(serializers.ModelSerializer):
         model = UpcomingPayment
         fields = '__all__'        
 
-
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['created'] = localtime(instance.created).strftime("%Y-%m-%d %H:%M")
+        return rep
+    
 
 
 class SavingsGoalSerializer(serializers.ModelSerializer):
