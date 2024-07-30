@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 class ExpenseCategory(models.Model):
     name = models.CharField(max_length=80)
     created = models.DateTimeField(auto_now_add=True)
+    icon = models.ImageField(upload_to='images/icons/categories',null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -18,6 +19,7 @@ class ExpenseSubCategory(models.Model):
     category = models.ForeignKey(ExpenseCategory,on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     created = models.DateTimeField(auto_now_add=True)
+    icon = models.ImageField(upload_to='images/icons/subctegories',null=True)
 
     def __str__(self) -> str:
         return self.name

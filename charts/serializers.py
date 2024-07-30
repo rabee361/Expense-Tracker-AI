@@ -73,12 +73,11 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
     
 
 class SpendingLimitSerializer(serializers.ModelSerializer):
-    # category_name = serializers.CharField(write_only=True)
+    category_name = serializers.CharField(source='category.name',read_only=True)
 
     class Meta:
         model = SpendingLimit
         fields = '__all__'
-        # exclude = ['category']
         
 
     # def create(self, validated_data):
