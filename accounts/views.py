@@ -88,19 +88,19 @@ class VerifyAccountView(APIView):
 class GetOTPCodeView(APIView):
     def post(self, request):
         email = request.data['email']
-        try: 
-            user = get_object_or_404(CustomUser, email=email)
-            existing_code = OTPCode.objects.filter(user=user).first()
-            if existing_code:
-                existing_code.delete()
-            code_verivecation = generate_code()
-            data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verivecation)}
-            send_email(data)
-            code = OTPCode.objects.create(user=user, code=code_verivecation)
-            return Response({'message':'تم ارسال رمز التحقق',
-                             'user_id' : user.id})
-        except:
-            raise serializers.ValidationError({'error':'pleace enter valid email'})
+        # try: 
+        user = get_object_or_404(CustomUser, email=email)
+        existing_code = OTPCode.objects.filter(user=user).first()
+        if existing_code:
+            existing_code.delete()
+        code_verification = generate_code()
+        data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verification)}
+        send_email(data)
+        code = OTPCode.objects.create(user=user, code=code_verification)
+        return Response({'message':'تم ارسال رمز التحقق',
+                            'user_id' : user.id})
+        # except:
+        #     raise serializers.ValidationError({'error':'pleace enter valid email'})
     
 
 
@@ -131,7 +131,7 @@ class VerifyOTPView(APIView):
 class ResetPasswordView(UpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ResetPasswordSerializer
-    permission_classes = [ IsVerified, HaveOTPCode, PermissionResetPassword]
+    permission_classes = [ IsVerified, HaveOTPCode]
 
     def get_permissions(self):
         self.request.pk = self.kwargs.get('pk')

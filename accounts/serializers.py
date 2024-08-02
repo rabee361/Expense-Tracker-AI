@@ -69,11 +69,11 @@ class UserLogoutSerializer(serializers.Serializer):
 ##### reset password serializer #####
 class ResetPasswordSerializer(serializers.Serializer):
     newpassword = serializers.CharField(write_only=True)
-    password = serializers.CharField(write_only=True)
+    newpassword2 = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['newpassword']:
-            raise serializers.ValidationError({'message_error':'Passwords do not match.'})
+        if attrs['newpassword2'] != attrs['newpassword']:
+            raise serializers.ValidationError({'message_error':'كلمات المرور غير متطابقة'})
         validate_password(attrs['newpassword'])
         return attrs
 
@@ -102,6 +102,7 @@ class UpdateUserInfoSerializer(serializers.ModelSerializer):
         fields = ['id','email', 'username', 'image']
         exrtra_kwargs = {
             'id':{'read_only':True},
+            'username':{'read_only':True},
         }
 
 
