@@ -91,7 +91,7 @@ class SavingsGoalSerializer(serializers.ModelSerializer):
         validated_data['user'] = CustomUser.objects.get(id=user_id)
         return SavingsGoal.objects.create(**validated_data)
          
-        
+
     
 
 class SpendingLimitSerializer(serializers.ModelSerializer):

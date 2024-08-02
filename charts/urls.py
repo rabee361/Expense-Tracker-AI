@@ -20,8 +20,11 @@ urlpatterns = [
 
     path('line-chart/<str:year>/' , LineChart.as_view()),
 
-    path('upcoming-payments/' , ListCreateUpcomingPayment.as_view()),
-    path('get-upcoming-payment/<str:pk>/' ,RetUpdDesUpcomingPayment.as_view()),
+    path('upcoming-payments' , ListCreateUpcomingPayment.as_view()),
+    path('create-upcoming/' , ListCreateUpcomingPayment.as_view()),
+    path('get-upcoming/<str:pk>' ,RetUpdDesUpcomingPayment.as_view()),
+    path('delete-upcoming/<str:pk>' ,RetUpdDesUpcomingPayment.as_view()),
+    path('update-upcoming/<str:pk>' ,RetUpdDesUpcomingPayment.as_view()),
 
     path('list-goals/' , ListSavingGoal.as_view()),
     path('create-goal/' , CreateSavingGoal.as_view()),
