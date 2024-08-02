@@ -40,7 +40,7 @@ class Item(models.Model):
 
 
 class UpcomingPayment(models.Model):
-    account = models.ForeignKey(Account,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
