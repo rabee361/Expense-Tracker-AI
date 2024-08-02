@@ -41,7 +41,7 @@ class Item(models.Model):
 
 class UpcomingPayment(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,unique=True)
     price = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     date = models.DateField()
@@ -49,7 +49,7 @@ class UpcomingPayment(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
+
 
 
 

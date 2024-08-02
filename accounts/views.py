@@ -12,7 +12,6 @@ from rest_framework.generics import UpdateAPIView , RetrieveAPIView , ListCreate
 from django.shortcuts import get_object_or_404
 
 
-# sign-up users
 class SignUpView(APIView):
     def post(self, request):
         user_information = request.data
@@ -36,8 +35,7 @@ class SignUpView(APIView):
 
 
 
-# login 
-class UserLoginApiView(APIView):
+class LoginView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
@@ -52,7 +50,7 @@ class UserLoginApiView(APIView):
 
 
 # logout
-class LogoutAPIView(APIView):
+class LogoutView(APIView):
     permission_classes = [IsAuthenticated, IsVerified]
     def post(self, request):
         serializer = UserLogoutSerializer(data=request.data)
@@ -65,8 +63,8 @@ class LogoutAPIView(APIView):
 
 
 ##### verify account with generated code #####
-class VerifyAccount(APIView):
-    permission_classes = [HaveCodeVerifecation,]
+class VerifyAccountView(APIView):
+    permission_classes = [HaveOTPCode]
 
     def put(self, request, pk):
         code = request.data['code']
@@ -87,7 +85,7 @@ class VerifyAccount(APIView):
 
 
 ##### Reset Password for user ######
-class GetCodeResetPassword(APIView):
+class GetOTPCodeView(APIView):
     def post(self, request):
         email = request.data['email']
         try: 
@@ -107,8 +105,8 @@ class GetCodeResetPassword(APIView):
 
 
 # End Points For Verified Account To Reset Password
-class VerifyCodeToChangePassword(APIView):
-    permission_classes = [HaveCodeVerifecation, IsVerified, ]
+class VerifyOTPView(APIView):
+    permission_classes = [HaveOTPCode, IsVerified ]
 
     def get_permissions(self):
         self.request.pk = self.kwargs.get('pk') # Pass the pk to the request
@@ -133,7 +131,7 @@ class VerifyCodeToChangePassword(APIView):
 class ResetPasswordView(UpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ResetPasswordSerializer
-    permission_classes = [ IsVerified, HaveCodeVerifecation, PermissionResetPassword]
+    permission_classes = [ IsVerified, HaveOTPCode, PermissionResetPassword]
 
     def get_permissions(self):
         self.request.pk = self.kwargs.get('pk')

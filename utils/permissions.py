@@ -10,6 +10,8 @@ class IsVerified(BasePermission):
             raise PermissionDenied("الحساب غير مؤكد الرجاء تأكيد الحساب والمحاولة من جديد")
         return True
     
+
+
 class PermissionResetPassword(BasePermission):
     def has_permission(self, request, view):
         user_id = request.pk
@@ -18,7 +20,9 @@ class PermissionResetPassword(BasePermission):
             raise PermissionDenied("ليس لديك الصلاحية بتغيير كلمة المرور")
         return True
 
-class HaveCodeVerifecation(BasePermission):
+
+
+class HaveOTPCode(BasePermission):
     def has_permission(self, request, view):
         user_id = request.pk
         code_verification = OTPCode.objects.filter(user__id=user_id).first()
