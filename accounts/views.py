@@ -51,7 +51,7 @@ class LoginView(APIView):
 
 # logout
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated, IsVerified]
+    permission_classes = (IsAuthenticated, IsVerified,)
     def post(self, request):
         serializer = UserLogoutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -63,10 +63,10 @@ class LogoutView(APIView):
 
 
 ##### verify account with generated code #####
-class VerifyAccountView(APIView):
-    permission_classes = [HaveOTPCode]
+class VerifyOTPView(APIView):
+    permission_classes = (HaveOTPCode,)
 
-    def put(self, request, pk):
+    def post(self, request, pk):
         code = request.data['code']
         user = CustomUser.objects.get(id=pk)
         code_ver = OTPCode.objects.filter(user=user.id).first()
@@ -88,29 +88,25 @@ class VerifyAccountView(APIView):
 class GetOTPCodeView(APIView):
     def post(self, request):
         email = request.data['email']
-        # try: 
-        user = get_object_or_404(CustomUser, email=email)
-        existing_code = OTPCode.objects.filter(user=user).first()
-        if existing_code:
-            existing_code.delete()
-        code_verification = generate_code()
-        data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verification)}
-        send_email(data)
-        code = OTPCode.objects.create(user=user, code=code_verification)
-        return Response({'message':'تم ارسال رمز التحقق',
-                            'user_id' : user.id})
-        # except:
-        #     raise serializers.ValidationError({'error':'pleace enter valid email'})
+        try: 
+            user = get_object_or_404(CustomUser, email=email)
+            existing_code = OTPCode.objects.filter(user=user).first()
+            if existing_code:
+                existing_code.delete()
+            code_verification = generate_code()
+            data= {'to_email':user.email, 'email_subject':'Verify your email','username':user.username, 'code': str(code_verification)}
+            send_email(data)
+            code = OTPCode.objects.create(user=user, code=code_verification)
+            return Response({'message':'تم ارسال رمز التحقق',
+                                'user_id' : user.id})
+        except:
+            raise serializers.ValidationError({'error':'pleace enter valid email'})
     
 
 
 # End Points For Verified Account To Reset Password
-class VerifyOTPView(APIView):
-    permission_classes = [HaveOTPCode, IsVerified ]
-
-    def get_permissions(self):
-        self.request.pk = self.kwargs.get('pk') # Pass the pk to the request
-        return super().get_permissions()
+class VerifyAccountView(APIView):
+    permission_classes = (HaveOTPCode, IsVerified,)
     
     def post(self, request, pk):
         code = request.data['code']
@@ -119,19 +115,19 @@ class VerifyOTPView(APIView):
         if code_ver:
             if str(code) == str(code_ver.code):
                 if timezone.now() > code_ver.expires_at:
-                    return Response({"message":"Verification code has expired"}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"message":"لقد انتهت صلاحية كود التحقق"}, status=status.HTTP_400_BAD_REQUEST)
                 code_ver.is_verified = True
                 code_ver.save()
-                return Response({"message":"تم التحقق من الرمز", 'user_id':code_ver.user.id},status=status.HTTP_200_OK)
+                return Response({"message":"تم التحقق من الرمز", 'user_id':user.id},status=status.HTTP_200_OK)
             else:
                 return Response({'message':'الرمز خاطئ, يرجى إعادة إدخال الرمز بشكل صحيح'})
         
 
 # End Points For Reset Password
 class ResetPasswordView(UpdateAPIView):
+    permission_classes = (IsVerified, HaveOTPCode,)
     queryset = CustomUser.objects.all()
     serializer_class = ResetPasswordSerializer
-    permission_classes = [ IsVerified, HaveOTPCode]
 
     def get_permissions(self):
         self.request.pk = self.kwargs.get('pk')
@@ -146,22 +142,22 @@ class ResetPasswordView(UpdateAPIView):
 
 ##### get user profile information #####
 class ListUserInformationView(RetrieveAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
     queryset = CustomUser.objects.all()
     serializer_class= CustomUserSerializer
 
 
 
 class UpdateImageUserView(UpdateAPIView):
+    permission_classes = (IsAuthenticated,)
     queryset = CustomUser.objects.all()
     serializer_class = UpdateUserInfoSerializer
-    permission_classes = [IsAuthenticated]
 
 
 
 
 class UserAccount(ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
@@ -171,6 +167,6 @@ class UserAccount(ListCreateAPIView):
 
 
 class ListAccounyTypes(ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated,)
     queryset = AccountType.objects.all()
     serializer_class = AccountTypeSerializer
