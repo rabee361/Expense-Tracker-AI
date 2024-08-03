@@ -19,9 +19,9 @@ class IsVerified(BasePermission):
 
 class HaveOTPCode(BasePermission):
     def has_permission(self, request, view):
-        user_id = view.kwargs.get('pk', None)
+        pk = view.kwargs.get('pk', None)
         if pk is not None:
-            code_verification = OTPCode.objects.filter(user__id=user_id).first()
+            code_verification = OTPCode.objects.filter(user__id=pk).first()
             if not code_verification:
                 raise PermissionDenied("الرجاء طلب رمز التحقق والمحاولة من جديد")
             return True
