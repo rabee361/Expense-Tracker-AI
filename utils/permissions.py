@@ -4,12 +4,14 @@ from accounts.models import *
 
 class IsVerified(BasePermission):
     def has_permission(self, request, view):
-        user_id = view.kwargs.get('pk', None)
-        user = CustomUser.objects.filter(id=user_id).first()
-        if not user.is_verified:
-            raise PermissionDenied("الحساب غير مؤكد الرجاء تأكيد الحساب والمحاولة من جديد")
-        return True
-    
+        pk = view.kwargs.get('pk', None)
+        if pk is not None:
+            user = CustomUser.objects.filter(id=pk).first()
+            if user and not user.is_verified:
+                raise PermissionDenied("الحساب غير مؤكد الرجاء تأكيد الحساب والمحاولة من جديد")
+            return True
+        else:
+            return False
 
 
 
