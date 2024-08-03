@@ -11,14 +11,14 @@ urlpatterns = [
     path('subcategories/' , ListCreateSubCategory.as_view()),
     path('create-subcategory/' , ListCreateSubCategory.as_view()),
     path('get-subcategory/<str:pk>/' , RetUpdDesSubCategory.as_view()),
-    path('pie-subcategories/' , PieChartSubCategory.as_view()),
+    path('pie-subcategories/<str:account_id>/' , PieChartSubCategory.as_view()),
 
     path('categories/' , ListCreateCategory.as_view()),
     path('create-category/' , ListCreateCategory.as_view()),
     path('get-category/<str:pk>/' , RetUpdDesCategory.as_view()),
-    path('pie-categories/' , PieChartCategories.as_view()),
+    path('pie-categories/<str:account_id>/' , PieChartCategories.as_view()),
 
-    path('line-chart/<str:year>/' , LineChart.as_view()),
+    path('line-chart/<str:account_id>' , LineChart.as_view()),
 
     path('upcoming-payments' , ListCreateUpcomingPayment.as_view()),
     path('create-upcoming/' , ListCreateUpcomingPayment.as_view()),
