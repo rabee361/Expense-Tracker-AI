@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('line-chart/<str:account_id>' , LineChart.as_view()),
 
-    path('upcoming-payments' , ListCreateUpcomingPayment.as_view()),
+    path('list-upcoming' , ListCreateUpcomingPayment.as_view()),
     path('create-upcoming/' , ListCreateUpcomingPayment.as_view()),
     path('get-upcoming/<str:pk>' ,RetUpdDesUpcomingPayment.as_view()),
     path('delete-upcoming/<str:pk>' ,RetUpdDesUpcomingPayment.as_view()),
