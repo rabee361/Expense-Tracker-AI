@@ -99,7 +99,7 @@ class GetOTPCodeView(APIView):
             code = OTPCode.objects.create(user=user, code=code_verification)
             return Response({'message':'تم ارسال رمز التحقق',
                                 'user_id' : user.id})
-        except:
+        except CustomUser.DoesNotExist:
             raise serializers.ValidationError({'error':'pleace enter valid email'})
     
 
