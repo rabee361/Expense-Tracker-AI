@@ -125,7 +125,7 @@ class VerifyAccountView(APIView):
 
 # End Points For Reset Password
 class ResetPasswordView(UpdateAPIView):
-    permission_classes = (IsVerified, HaveOTPCode,)
+    permission_classes = (IsVerified,)
     queryset = CustomUser.objects.all()
     serializer_class = ResetPasswordSerializer
 
