@@ -79,7 +79,7 @@ class ResetPasswordSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         pk = self.context.get('pk')
-        instance = CustomUser.objects.get(pk=pk)
+        instance = CustomUser.objects.get(id=pk)
         instance.set_password(validated_data['newpassword'])
         instance.save()
         code = OTPCode.objects.filter(user=instance).first()
