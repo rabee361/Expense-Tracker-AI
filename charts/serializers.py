@@ -15,6 +15,17 @@ class ItemsPerMonthSerializer(serializers.Serializer):
     
 
 
+
+class ItemsCountPerMonthSerializer(serializers.Serializer):
+    month_name = serializers.SerializerMethodField()
+    count = serializers.IntegerField()
+
+    def get_month_name(self, obj):
+        return calendar.month_name[obj['month']]
+    
+
+
+
 class GroupCategoriesSerializer(serializers.Serializer):
     category = serializers.CharField(source='subcategory__category__name')
     sum = serializers.IntegerField()

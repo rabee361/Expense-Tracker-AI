@@ -3,8 +3,8 @@ from .serializers import *
 from .models import Item 
 from rest_framework.response import Response
 from utils.helper import *
-from django.db.models import Sum , F , Q
-from django.db.models.functions import ExtractMonth
+from django.db.models import Sum , F , Q , Count
+from django.db.models.functions import ExtractMonth , ExtractWeek
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView , RetrieveAPIView , UpdateAPIView , DestroyAPIView , ListAPIView
 from project.filters import *
@@ -223,6 +223,28 @@ class LineChart(GenericAPIView):
         filtered_queryset = self.filter_queryset(grouped_expenses)
         serializer = ItemsPerMonthSerializer(filtered_queryset, many=True)
         return Response(serializer.data)
+
+
+
+
+class SpendingRateChart(GenericAPIView):
+    # permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ItemFilter
+
+    def get_queryset(self):
+        grouped_expenses = Item.objects.annotate(item_price=F("price")).\
+                                        annotate(month=ExtractMonth("created")).\
+                                        values("month").annotate(count=Count("id")).\
+                                        values("month", "count").order_by("month")
+        return grouped_expenses
+    
+    def get(self,request, account_id):
+        grouped_expenses = self.get_queryset().filter(account_id=account_id)
+        filtered_queryset = self.filter_queryset(grouped_expenses)
+        serializer = ItemsCountPerMonthSerializer(filtered_queryset, many=True)
+        return Response(serializer.data)
+
 
 
 
