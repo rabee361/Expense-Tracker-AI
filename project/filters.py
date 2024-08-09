@@ -6,11 +6,11 @@ from charts.models import *
 class ItemFilter(django_filters.FilterSet):
     date_from = django_filters.DateFilter(field_name='created', lookup_expr='gte')
     date_to = django_filters.DateFilter(field_name='created', lookup_expr='lte')
-    subcategory = django_filters.CharFilter(field_name='subcategory__name', lookup_expr='startswith')
+    category = django_filters.CharFilter(field_name='subcategory__category__name', lookup_expr='startswith')
     
     class Meta:
         model = Item
-        fields = ['date_from', 'date_to','subcategory']
+        fields = ['date_from', 'date_to','category']
 
 
 
