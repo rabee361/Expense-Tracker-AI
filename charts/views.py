@@ -34,11 +34,15 @@ class CreateItemView(ListCreateAPIView):
 class ListItemView(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ItemFilter
     # permission_classes = (IsAuthenticated,)
 
-    # def get_queryset(self):
-    #     date = timezone.now().today()
-    #     return Item.objects.filter(created__date=date)
+    def get_queryset(self):
+        # date = timezone.now().today()
+        # return Item.objects.filter(created__date=date)
+        account_id = self.kwargs.get('account_id')
+        return Item.objects.filter(account=account_id)
     
 
 
