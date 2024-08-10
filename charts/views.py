@@ -6,14 +6,14 @@ from utils.helper import *
 from django.db.models import Sum , F , Q , Count
 from django.db.models.functions import ExtractMonth , ExtractWeek
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView , RetrieveAPIView , UpdateAPIView , DestroyAPIView , ListAPIView
+from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView , RetrieveAPIView , UpdateAPIView , DestroyAPIView , ListAPIView, CreateAPIView
 from project.filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from django.db import IntegrityError
 
 
-class CreateItemView(ListCreateAPIView):
+class CreateItemView(CreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = [DjangoFilterBackend]
