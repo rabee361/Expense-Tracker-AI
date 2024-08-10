@@ -157,7 +157,7 @@ class UpdateImageUserView(UpdateAPIView):
 
 
 class UserAccount(ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
@@ -165,8 +165,3 @@ class UserAccount(ListCreateAPIView):
         return super().get_queryset().filter(user=self.request.user)
 
 
-
-class ListAccounyTypes(ListAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = AccountType.objects.all()
-    serializer_class = AccountTypeSerializer

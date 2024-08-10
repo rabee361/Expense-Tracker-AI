@@ -15,8 +15,8 @@ urlpatterns = [
     path('setting/profile-info/<str:pk>/', ListUserInformationView.as_view()),
     path('setting/update-image/<str:pk>/',UpdateImageUserView.as_view()),
 
+    path('create-account/' , UserAccount.as_view()),
     path('accounts/' , UserAccount.as_view()),
-    path('account-types/' , ListAccounyTypes.as_view())
 
 
 ]

@@ -35,5 +35,4 @@ class AdminCustomUser(UserAdmin):
     )
 admin.site.register(CustomUser, AdminCustomUser)
 admin.site.register(Account)
-admin.site.register(AccountType)
 admin.site.register(OTPCode)

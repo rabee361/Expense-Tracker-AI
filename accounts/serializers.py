@@ -117,12 +117,4 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 
-class AccountTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AccountType
-        fields = '__all__'
-
-
-
-
 

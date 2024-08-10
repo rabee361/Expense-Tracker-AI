@@ -7,15 +7,6 @@ from utils.helper import *
 
 
 
-
-class AccountType(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self) -> str:
-        return self.name
-
-
-
 class CustomUser(AbstractUser):
     email = models.EmailField(max_length=50, unique=True,null=True,blank=True)
     username = models.CharField(max_length=200)
@@ -33,13 +24,13 @@ class CustomUser(AbstractUser):
 
 class Account(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
     currency = models.CharField(max_length=20)
-    account_type = models.ForeignKey(AccountType,on_delete=models.CASCADE)
     notes = models.TextField(null=True , blank=True)
     budget = models.FloatField(validators=[MinValueValidator(0.0)])
 
     def __str__(self) -> str:
-        return f'{self.user.username}-{self.account_type}'
+        return f'{self.user.username}--{self.name}'
 
 
 
