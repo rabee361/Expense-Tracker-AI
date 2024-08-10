@@ -13,7 +13,7 @@ from rest_framework import status
 from django.db import IntegrityError
 
 
-class CreateItemView(CreateAPIView):
+class CreateItemView(ListCreateAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_backends = [DjangoFilterBackend]
