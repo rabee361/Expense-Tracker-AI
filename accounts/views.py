@@ -165,3 +165,10 @@ class UserAccount(ListCreateAPIView):
         return super().get_queryset().filter(user=self.request.user)
 
 
+
+
+
+class DeleteAccount(DestroyAPIView):
+    # permission_classes = (IsAuthenticated,)
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
