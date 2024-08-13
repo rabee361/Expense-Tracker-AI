@@ -1,6 +1,7 @@
+from typing import Any, Iterable
 from django.db import models
 from accounts.models import Account
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from accounts.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.db.models import Q  ,Sum
@@ -31,8 +32,14 @@ class Item(models.Model):
     account = models.ForeignKey(Account,on_delete=models.CASCADE)
     item_name = models.CharField(max_length = 100)
     price = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1,validators=[MinValueValidator(1), MaxValueValidator(1000)])
     created = models.DateTimeField(auto_now_add=True)
     subcategory = models.ForeignKey(ExpenseSubCategory,on_delete=models.SET_NULL,null=True)
+
+    def save(self, *args, **kwargs) -> None:
+        self.price = self.price * self.quantity
+        super().save(*args, **kwargs)
+
 
     def __str__(self) -> str:
         return self.item_name
