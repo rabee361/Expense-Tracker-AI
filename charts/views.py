@@ -202,10 +202,10 @@ class PieChartSubCategory(GenericAPIView):
             return Response({"error" : "you are not allowed in this account"} ,status=status.HTTP_403_FORBIDDEN)
         
         queryset = self.filter_queryset(Item.objects.filter(Q(account=account)&Q(subcategory__category__name=category)))
-        grouped_expenses = queryset.values("subcategory__category__name")\
+        grouped_expenses = queryset.values("subcategory__name")\
                                     .annotate(sum=Sum("price"))\
-                                    .values("subcategory__category__name","sum").distinct()
-        serializer = GroupCategoriesSerializer(grouped_expenses, many=True)
+                                    .values("subcategory__name","sum").distinct()
+        serializer = GroupSubCategoriesSerializer(grouped_expenses, many=True)
         return Response(serializer.data)
 
 
