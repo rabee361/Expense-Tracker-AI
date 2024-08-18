@@ -4,14 +4,15 @@ from .models import Item
 from rest_framework.response import Response
 from utils.helper import *
 from django.db.models import Sum , F , Q , Count
-from django.db.models.functions import ExtractMonth , ExtractWeek
+from django.db.models.functions import ExtractMonth , ExtractWeek , ExtractWeekDay
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListCreateAPIView , GenericAPIView , RetrieveUpdateDestroyAPIView , RetrieveAPIView , UpdateAPIView , DestroyAPIView , ListAPIView, CreateAPIView
 from project.filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from django.db import IntegrityError
-
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models.functions import TruncDate
 
 class CreateItemView(ListCreateAPIView):
     queryset = Item.objects.all()
@@ -252,6 +253,23 @@ class SpendingRateChart(GenericAPIView):
 
 
 
+class WeeklyExpensesChart(GenericAPIView):
+    # permission_classes = (IsAuthenticated,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ItemFilter
+
+    def post(self,request,account_id):
+        seven_days_ago = timezone.now() - timezone.timedelta(days=7)
+        
+        daily_sums = Item.objects.filter(created__gte=seven_days_ago)\
+                             .annotate(day=ExtractWeekDay('created'))\
+                             .values('day')\
+                             .annotate(sum=Sum('price'))\
+                             .order_by('day')
+        serializer = WeeklyExpensesSerializer(daily_sums, many=True)
+        # serializer = list(daily_sums)
+        
+        return Response(serializer.data)
 
 
 

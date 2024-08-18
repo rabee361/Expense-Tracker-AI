@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('line-chart/<str:account_id>' , LineChart.as_view()),
     path('spending-chart/<str:account_id>' , SpendingRateChart.as_view()),
+    path('bar-chart/<str:account_id>' , WeeklyExpensesChart.as_view()),
 
     path('list-upcoming' , ListCreateUpcomingPayment.as_view()),
     path('create-upcoming/' , ListCreateUpcomingPayment.as_view()),

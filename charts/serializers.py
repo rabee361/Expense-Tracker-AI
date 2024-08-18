@@ -24,6 +24,26 @@ class ItemsCountPerMonthSerializer(serializers.Serializer):
         return calendar.month_name[obj['month']]
     
 
+days = {
+    1:'Sun',
+    2:'Mon',
+    3:'Tue',
+    4:'Wed',
+    5:'Thu',
+    6:'Fri',
+    7:'Sat',
+}
+
+
+class WeeklyExpensesSerializer(serializers.Serializer):
+    day = serializers.SerializerMethodField()
+    sum = serializers.IntegerField()
+
+    def get_day(self,obj):
+        return days[obj['day']]
+
+    
+
 
 
 class GroupCategoriesSerializer(serializers.Serializer):
